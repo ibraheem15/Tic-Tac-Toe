@@ -11,9 +11,17 @@ h1 {
   text-align: center;
   font-weight: 900;
   font-size: 6rem;
-  max-width: 20rem;
+  max-width: 25rem;
   line-height: 5rem;
   text-transform: uppercase;
+}
+
+@media (max-width: 1080px) {
+  h1 {
+    font-size: 5rem;
+    line-height: 4.5rem;
+    max-width: 20rem;
+  }
 }
 
 /* ! Player Controls */
@@ -53,18 +61,33 @@ h1 {
   position: relative;
 }
 #tic-tac-grid div {
-  width: 10rem;
-  height: 10rem;
+  /* width: 10rem; */
+  /* height: 10rem; */
+  width: 10vw;
+  height: 10vw;
   background: #fff;
   margin: 0;
   float: left;
   text-align: center;
   font-weight: 900;
-  font-size: 6.5rem;
+  font-size: 6rem;
   line-height: 10rem;
   cursor: default;
   margin: 0 1rem 1rem 0;
 }
+
+@media (max-width: 1080px) {
+  #tic-tac-grid {
+    margin: 25vh 0 0 10vw;
+    padding: 0.5rem 0 0 0.5rem;
+  }
+  #tic-tac-grid div{
+    width: 8vw;
+    height: 8vw;
+    margin: 0 0.5rem 0.5rem 0;
+  }
+}
+
 #tic-tac-grid div.active {
   background: #ffc2c2;
 }
