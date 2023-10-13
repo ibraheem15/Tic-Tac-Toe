@@ -1,0 +1,150 @@
+body {
+  font-family: "Arial", sans-serif;
+  display: flex;
+  height: 100vh;
+  margin: 0;
+}
+
+/* ! Heading */
+
+h1 {
+  text-align: center;
+  font-weight: 900;
+  font-size: 6rem;
+  max-width: 20rem;
+  line-height: 5rem;
+  text-transform: uppercase;
+}
+
+/* ! Player Controls */
+
+.player-controls {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: #ffc2c2;
+  width: 20vw;
+  padding-bottom: 10vh;
+}
+.player-controls [id*="selection-"] {
+  width: 8rem;
+  height: 8rem;
+  line-height: 8rem;
+  font-weight: 900;
+  font-size: 8rem;
+  margin: 1rem;
+  cursor: pointer;
+  text-align: center;
+  background: transparent;
+}
+.player-controls [id*="selection-"].disabled {
+  user-select: none;
+  opacity: 0.2;
+  cursor: default;
+}
+
+/* ! Board */
+
+#tic-tac-grid {
+  background: black;
+  padding: 1rem 0 0 1rem;
+  margin: 15vh 0 0 15vw;
+  position: relative;
+}
+#tic-tac-grid div {
+  width: 10rem;
+  height: 10rem;
+  background: #fff;
+  margin: 0;
+  float: left;
+  text-align: center;
+  font-weight: 900;
+  font-size: 6.5rem;
+  line-height: 10rem;
+  cursor: default;
+  margin: 0 1rem 1rem 0;
+}
+#tic-tac-grid div.active {
+  background: #ffc2c2;
+}
+#tic-tac-grid div:nth-child(3n + 1) {
+  clear: both;
+}
+#tic-tac-grid[class*="winner-0"] > div:nth-child(1),
+#tic-tac-grid[class*="winner-0"] > div:nth-child(2),
+#tic-tac-grid[class*="winner-0"] > div:nth-child(3) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-1"] > div:nth-child(4),
+#tic-tac-grid[class*="winner-1"] > div:nth-child(5),
+#tic-tac-grid[class*="winner-1"] > div:nth-child(6) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-2"] > div:nth-child(7),
+#tic-tac-grid[class*="winner-2"] > div:nth-child(8),
+#tic-tac-grid[class*="winner-2"] > div:nth-child(9) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-3"] > div:nth-child(1),
+#tic-tac-grid[class*="winner-3"] > div:nth-child(4),
+#tic-tac-grid[class*="winner-3"] > div:nth-child(7) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-4"] > div:nth-child(2),
+#tic-tac-grid[class*="winner-4"] > div:nth-child(5),
+#tic-tac-grid[class*="winner-4"] > div:nth-child(8) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-5"] > div:nth-child(3),
+#tic-tac-grid[class*="winner-5"] > div:nth-child(6),
+#tic-tac-grid[class*="winner-5"] > div:nth-child(9) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-6"] > div:nth-child(1),
+#tic-tac-grid[class*="winner-6"] > div:nth-child(5),
+#tic-tac-grid[class*="winner-6"] > div:nth-child(9) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid[class*="winner-7"] > div:nth-child(3),
+#tic-tac-grid[class*="winner-7"] > div:nth-child(5),
+#tic-tac-grid[class*="winner-7"] > div:nth-child(7) {
+  background: #000;
+  color: #fff;
+}
+#tic-tac-grid:after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+/* ! New Round Button */
+
+#new-round {
+  margin: 1rem 1rem 0rem;
+  padding: 0.5rem 0;
+  border: none;
+  background: transparent;
+  font-weight: 400;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+#new-round:focus {
+  outline: none;
+}
+#new-round:hover {
+  outline: none;
+  border: solid black;
+  padding-bottom: 0.25rem;
+  border-width: 0 0 0.25rem 0;
+}
+#new-round:active {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
