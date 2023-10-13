@@ -12,6 +12,9 @@ let isGameOver = false;
 let isDraw = false;
 let winner = "";
 
+let piecesPlacedX = 0;
+let piecesPlacedO = 0;
+
 const winningCombinations = [
   // Horizontal
   [0, 1, 2],
@@ -30,6 +33,14 @@ const winningCombinations = [
 
 // randomize who goes first (X or O) and set the player variable to that value and disable the other selection
 const randomizePlayer = () => {
+  if (piecesPlacedO === 0 && piecesPlacedX === 0) {
+    selectionX.disabled = false;
+    selectionX.draggable = true;
+    selectionX.classList.remove("disabled");
+    selectionO.disabled = false;
+    selectionO.draggable = true;
+    selectionO.classList.remove("disabled");
+  }
   const random = Math.floor(Math.random() * 2);
   player = random === 0 ? "X" : "O";
   const selection = player === "X" ? selectionO : selectionX;
@@ -40,6 +51,13 @@ const randomizePlayer = () => {
 
 // get next player
 const getNextPlayer = () => {
+  if (player === "X" && piecesPlacedX >= 3) {
+    selectionX.disabled = true;
+    return player;
+  } else if (player === "O" && piecesPlacedO >= 3) {
+    selectionO.disabled = true;
+    return player;
+  }
   const selection = player === "X" ? selectionO : selectionX;
   const otherSelection = player === "X" ? selectionX : selectionO;
   selection.disabled = false;
@@ -92,7 +110,10 @@ cells.forEach((cell) => {
       return;
     }
 
-    if (cell.innerHTML === "") {
+    if (
+      (player === "X" && piecesPlacedX < 3) ||
+      (player === "O" && piecesPlacedO < 3)
+    ) {
       cell.innerHTML = player;
       switchPlayer();
       checkForWinner();
@@ -102,6 +123,12 @@ cells.forEach((cell) => {
         alert(`${winner} wins!`);
       } else if (isDraw) {
         alert("It's a draw!");
+      }
+
+      if (player === "X") {
+        piecesPlacedX++;
+      } else {
+        piecesPlacedO++;
       }
     }
   });
@@ -116,6 +143,11 @@ newRoundButton.addEventListener("click", () => {
   isGameOver = false;
   isDraw = false;
   winner = "";
+
+  piecesPlacedX = 0;
+  piecesPlacedO = 0;
+
+  randomizePlayer();
 });
 
 // add event listener to selection X
@@ -150,7 +182,10 @@ ticTacGrid.addEventListener("drop", (e) => {
     return;
   }
 
-  if (e.target.innerHTML === "") {
+  if (
+    (player === "X" && piecesPlacedX <= 3) ||
+    (player === "O" && piecesPlacedO <= 3)
+  ) {
     e.target.innerHTML = player;
     switchPlayer();
     checkForWinner();
@@ -160,6 +195,22 @@ ticTacGrid.addEventListener("drop", (e) => {
       alert(`${winner} wins!`);
     } else if (isDraw) {
       alert("It's a draw!");
+    }
+
+    if (player === "X") {
+      if (piecesPlacedX === 3) {
+        selectionX.disabled = true;
+        selectionX.draggable = false;
+        selectionX.classList.add("disabled");
+      }
+      piecesPlacedX++;
+    } else {
+      if (piecesPlacedO === 3) {
+        selectionO.disabled = true;
+        selectionO.draggable = false;
+        selectionO.classList.add("disabled");
+      }
+      piecesPlacedO++;
     }
   }
 });
