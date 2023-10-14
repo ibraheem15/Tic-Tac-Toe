@@ -89,6 +89,13 @@ const checkForWinner = () => {
       isGameOver = true;
       winner = cells[a].innerHTML;
 
+      draggableOff();
+
+      // change color of winning cells
+      cells[a].classList.add("winner");
+      cells[b].classList.add("winner");
+      cells[c].classList.add("winner");
+
       alert(`${winner} wins!`);
     }
   });
@@ -108,57 +115,51 @@ const checkForDraw = () => {
 };
 
 // add event listener to each cell
-// cells.forEach((cell) => {
-//   cell.addEventListener("click", (e) => {
-//     console.log(player);
-//     if (isGameOver) {
-//       return;
-//     }
+cells.forEach((cell) => {
+  cell.addEventListener("click", (e) => {
+    console.log(player);
+    if (isGameOver) {
+      return;
+    }
 
-//     if (
-//       ((player === "X" && piecesPlacedX <= 3) ||
-//         (player === "O" && piecesPlacedO <= 3)) &&
-//       cell.innerHTML === ""
-//     ) {
-//       cell.innerHTML = player;
-//       switchPlayer();
-//       checkForWinner();
-//       isDraw = checkForDraw();
+    if (
+      ((player === "X" && piecesPlacedX <= 3) ||
+        (player === "O" && piecesPlacedO <= 3)) &&
+      cell.innerHTML === ""
+    ) {
+      cell.innerHTML = player;
+      switchPlayer();
+      checkForWinner();
+      isDraw = checkForDraw();
 
-//       if (isDraw) {
-//         alert("It's a draw!");
-//       }
+      if (isDraw) {
+        alert("It's a draw!");
+      }
 
-//       if (player === "X") {
-//         if (piecesPlacedX === 3) {
-//           selectionX.disabled = true;
-//           selectionX.draggable = false;
-//           selectionX.classList.add("disabled");
-//         }
-//         piecesPlacedO++;
-//         console.log(piecesPlacedO);
-//         console.log(piecesPlacedX);
-//         console.log(player);
-//         if (piecesPlacedX === 3 && piecesPlacedO === 3) {
-//           allowDraggable(e);
-//         }
-//       } else {
-//         if (piecesPlacedO === 3) {
-//           selectionO.disabled = true;
-//           selectionO.draggable = false;
-//           selectionO.classList.add("disabled");
-//         }
-//         piecesPlacedX++;
-//         console.log(piecesPlacedO);
-//         console.log(piecesPlacedX);
-//         console.log(player);
-//         if (piecesPlacedX === 3 && piecesPlacedO === 3) {
-//           allowDraggable(e);
-//         }
-//       }
-//     }
-//   });
-// });
+      if (player === "X") {
+        if (piecesPlacedX === 3) {
+          selectionX.disabled = true;
+          selectionX.draggable = false;
+          selectionX.classList.add("disabled");
+        }
+        piecesPlacedO++;
+        if (piecesPlacedX === 3 && piecesPlacedO === 3) {
+          allowDraggable(e);
+        }
+      } else {
+        if (piecesPlacedO === 3) {
+          selectionO.disabled = true;
+          selectionO.draggable = false;
+          selectionO.classList.add("disabled");
+        }
+        piecesPlacedX++;
+        if (piecesPlacedX === 3 && piecesPlacedO === 3) {
+          allowDraggable(e);
+        }
+      }
+    }
+  });
+});
 
 // add event listener to new round button
 newRoundButton.addEventListener("click", () => {
@@ -174,6 +175,11 @@ newRoundButton.addEventListener("click", () => {
   piecesPlacedO = 0;
 
   draggableOff();
+
+  // remove winner class from cells
+  cells.forEach((cell) => {
+    cell.classList.remove("winner"); // this doesn't work
+  });
 
   randomizePlayer();
 });
