@@ -84,8 +84,13 @@ const checkForWinner = () => {
       cells[b].innerHTML === cells[c].innerHTML &&
       cells[a].innerHTML !== ""
     ) {
+      console.log(cells[a]);
+      console.log(cells[b]);
+      console.log(cells[c]);
       isGameOver = true;
       winner = cells[a].innerHTML;
+
+      alert(`${winner} wins!`);
     }
   });
 };
@@ -111,25 +116,35 @@ cells.forEach((cell) => {
     }
 
     if (
-      (player === "X" && piecesPlacedX < 3) ||
-      (player === "O" && piecesPlacedO < 3)
+      (player === "X" && piecesPlacedX <= 3) ||
+      (player === "O" && piecesPlacedO <= 3)
     ) {
       cell.innerHTML = player;
       switchPlayer();
       checkForWinner();
       isDraw = checkForDraw();
 
-      if (isGameOver) {
-        alert(`${winner} wins!`);
-      } else if (isDraw) {
+      if (isDraw) {
         alert("It's a draw!");
       }
 
       if (player === "X") {
+        if (piecesPlacedX === 3) {
+          selectionX.disabled = true;
+          selectionX.draggable = false;
+          selectionX.classList.add("disabled");
+        }
         piecesPlacedX++;
       } else {
+        if (piecesPlacedO === 3) {
+          selectionO.disabled = true;
+          selectionO.draggable = false;
+          selectionO.classList.add("disabled");
+        }
         piecesPlacedO++;
       }
+    } else {
+      allowDraggable(e);
     }
   });
 });
@@ -191,9 +206,7 @@ ticTacGrid.addEventListener("drop", (e) => {
     checkForWinner();
     isDraw = checkForDraw();
 
-    if (isGameOver) {
-      alert(`${winner} wins!`);
-    } else if (isDraw) {
+    if (isDraw) {
       alert("It's a draw!");
     }
 
@@ -212,7 +225,76 @@ ticTacGrid.addEventListener("drop", (e) => {
       }
       piecesPlacedO++;
     }
+  } else {
+    allowDraggable(e);
   }
 });
+
+function allowDraggable(ev) {
+  ev.preventDefault();
+
+  let cell0 = document.getElementById("0");
+  let cell1 = document.getElementById("1");
+  let cell2 = document.getElementById("2");
+  let cell3 = document.getElementById("3");
+  let cell4 = document.getElementById("4");
+  let cell5 = document.getElementById("5");
+  let cell6 = document.getElementById("6");
+  let cell7 = document.getElementById("7");
+  let cell8 = document.getElementById("8");
+
+  // make each cell draggable byt loop
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].setAttribute("draggable", "true");
+  }
+
+  function handleDragStart(e) {
+    // Set the data to be transferred during the drag
+    e.dataTransfer.setData("text/plain", e.target.innerHTML);
+  }
+
+  function handleDragOver(e) {
+    // Prevent default to enable dropping
+    e.preventDefault();
+  }
+
+  function handleDrop(e) {
+    // Prevent default to enable dropping
+    e.preventDefault();
+
+    // Get the dragged cell and the drop target cell
+    const draggedCell = e.dataTransfer.getData("text/plain");
+    const dropTarget = e.target;
+
+    // Check if the drop target is a valid cell and is empty
+    if (dropTarget.classList.contains("cell") && dropTarget.innerHTML === "") {
+      // Swap the content (innerHTML) of the dragged cell and the drop target cell
+      dropTarget.innerHTML = draggedCell;
+      // If needed, you can add logic here to check for a winner or a draw
+
+      // Switch player and update counters if necessary
+      switchPlayer();
+      // updateCounters();
+    }
+  }
+
+  handleDrop(ev);
+
+  cells.forEach((cell) => {
+    cell.addEventListener("dragstart", handleDragStart);
+    cell.addEventListener("dragover", handleDragOver);
+    cell.addEventListener("drop", handleDrop);
+    cell.addEventListener("dragend", (e) => {
+      //remove the innerHTML of the cell that was dragged with validation (if the cell is not empty)
+      // cell.innerHTML = "";
+      if (e.target.innerHTML !== "") {
+        e.target.innerHTML = "";
+        checkForWinner();
+      }
+    });
+  });
+
+  // swap cells content when dragged and dropped to another cell (swap innerHTML) but not the empty cell
+}
 
 randomizePlayer();
