@@ -53,10 +53,12 @@ const randomizePlayer = () => {
 const getNextPlayer = () => {
   if (player === "X" && piecesPlacedX >= 3) {
     selectionX.disabled = true;
-    return player;
+    // return player;
+    return player === "X" ? "O" : "X";
   } else if (player === "O" && piecesPlacedO >= 3) {
     selectionO.disabled = true;
-    return player;
+    // return player;
+    return player === "X" ? "O" : "X";
   }
   const selection = player === "X" ? selectionO : selectionX;
   const otherSelection = player === "X" ? selectionX : selectionO;
@@ -248,7 +250,11 @@ ticTacGrid.addEventListener("drop", (e) => {
 
 function allowDraggable(ev) {
   const handleDragStart = (e) => {
-    e.dataTransfer.setData("text/plain", e.target.id);
+    if (e.target.innerHTML === player) {
+      e.dataTransfer.setData("text/plain", e.target.id);
+    } else {
+      e.preventDefault();
+    }
   };
 
   const handleDragOver = (e) => {
@@ -276,7 +282,9 @@ function allowDraggable(ev) {
     cell.addEventListener("dragstart", handleDragStart);
     cell.addEventListener("dragover", handleDragOver);
     cell.addEventListener("drop", handleDrop);
-    cell.addEventListener("dragend", () => {});
+    cell.addEventListener("dragend", () => {
+      // switchPlayer();
+    });
   });
 }
 
