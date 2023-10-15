@@ -23,6 +23,27 @@ h1 span{
   line-height: 3rem;
 }
 
+cite {
+  display: block;
+  text-align: center;
+  font-size: .9rem;
+  font-weight: 400;
+  margin-top: 40vh;
+}
+
+cite a {
+  color: #bf277b;
+  text-decoration: none;
+}
+
+cite a:hover {
+  text-decoration: underline;
+}
+
+.created_by {
+  
+}
+
 @media (max-width: 1080px) {
   h1 {
     align-items: center;
