@@ -3,6 +3,7 @@ const selectionX = document.getElementById("selection-x");
 const selectionO = document.getElementById("selection-o");
 const ticTacGrid = document.getElementById("tic-tac-grid");
 const newRoundButton = document.getElementById("new-round");
+const playerTurn = document.getElementById("player-turn");
 
 selectionX.draggable = true;
 selectionO.draggable = true;
@@ -43,6 +44,7 @@ const randomizePlayer = () => {
   }
   const random = Math.floor(Math.random() * 2);
   player = random === 0 ? "X" : "O";
+  playerTurn.textContent = "Player " + player + " Turn";
   const selection = player === "X" ? selectionO : selectionX;
   selection.disabled = true;
   selection.draggable = false;
@@ -53,11 +55,9 @@ const randomizePlayer = () => {
 const getNextPlayer = () => {
   if (player === "X" && piecesPlacedX >= 3) {
     selectionX.disabled = true;
-    // return player;
     return player === "X" ? "O" : "X";
   } else if (player === "O" && piecesPlacedO >= 3) {
     selectionO.disabled = true;
-    // return player;
     return player === "X" ? "O" : "X";
   }
   const selection = player === "X" ? selectionO : selectionX;
@@ -74,6 +74,7 @@ const getNextPlayer = () => {
 // switch player after each turn
 const switchPlayer = () => {
   player = getNextPlayer();
+  playerTurn.textContent = "Player " + player + " Turn";
 };
 
 // check for winner
@@ -96,7 +97,8 @@ const checkForWinner = () => {
       cells[b].classList.add("winner");
       cells[c].classList.add("winner");
 
-      alert(`${winner} wins!`);
+      // alert(`${winner} wins!`);
+      playerTurn.textContent = "Player " + winner + " Wins!";
     }
   });
 };
@@ -117,14 +119,13 @@ const checkForDraw = () => {
 // add event listener to each cell
 cells.forEach((cell) => {
   cell.addEventListener("click", (e) => {
-    console.log(player);
     if (isGameOver) {
       return;
     }
 
     if (
-      ((player === "X" && piecesPlacedX <= 3) ||
-        (player === "O" && piecesPlacedO <= 3)) &&
+      ((player === "X" && piecesPlacedX < 3) ||
+        (player === "O" && piecesPlacedO < 3)) &&
       cell.innerHTML === ""
     ) {
       cell.innerHTML = player;
@@ -217,10 +218,11 @@ ticTacGrid.addEventListener("drop", (e) => {
   }
 
   if (
-    ((player === "X" && piecesPlacedX <= 3) ||
-      (player === "O" && piecesPlacedO <= 3)) &&
+    ((player === "X" && piecesPlacedX < 3) ||
+      (player === "O" && piecesPlacedO < 3)) &&
     e.target.innerHTML === ""
   ) {
+    console.log("this invoked");
     e.target.innerHTML = player;
     switchPlayer();
     checkForWinner();
@@ -267,6 +269,21 @@ function allowDraggable(ev) {
     e.preventDefault();
   };
 
+  const isMoveValid = (draggedCellId, dropTargetId) => {
+    const validMoves = {
+      4: [0, 1, 2, 3, 5, 6, 7, 8],
+      0: [4],
+      1: [4],
+      2: [4],
+      3: [4],
+      5: [4],
+      6: [4],
+      7: [4],
+      8: [4],
+    };
+    return validMoves[draggedCellId].includes(parseInt(dropTargetId));
+  };
+
   const handleDrop = (e) => {
     e.preventDefault();
 
@@ -274,23 +291,27 @@ function allowDraggable(ev) {
     const draggedCellElement = document.getElementById(draggedCellId);
     const dropTarget = e.target;
 
-    if (dropTarget.classList.contains("cell") && dropTarget.innerHTML === "") {
+    if (
+      dropTarget.classList.contains("cell") &&
+      dropTarget.innerHTML === "" &&
+      isMoveValid(draggedCellId, dropTarget.id)
+    ) {
       dropTarget.innerHTML = draggedCellElement.innerHTML;
       draggedCellElement.innerHTML = "";
       switchPlayer();
       checkForWinner();
+    } else {
+      console.log("invalid move");
+      e.preventDefault();
     }
   };
-
   // Make each cell draggable
   cells.forEach((cell) => {
     cell.setAttribute("draggable", "true");
     cell.addEventListener("dragstart", handleDragStart);
     cell.addEventListener("dragover", handleDragOver);
     cell.addEventListener("drop", handleDrop);
-    cell.addEventListener("dragend", () => {
-      // switchPlayer();
-    });
+    cell.addEventListener("dragend", (e) => {});
   });
 }
 
