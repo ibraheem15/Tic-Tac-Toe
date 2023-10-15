@@ -14,13 +14,47 @@ h1 {
   max-width: 25rem;
   line-height: 5rem;
   text-transform: uppercase;
+} 
+
+h1 span{
+  display: block;
+  color: #bf277b;
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+cite {
+  display: block;
+  text-align: center;
+  font-size: .9rem;
+  font-weight: 400;
+  margin-top: 40vh;
+}
+
+cite a {
+  color: #bf277b;
+  text-decoration: none;
+}
+
+cite a:hover {
+  text-decoration: underline;
+}
+
+.created_by {
+  
 }
 
 @media (max-width: 1080px) {
   h1 {
-    font-size: 5rem;
-    line-height: 4.5rem;
-    max-width: 20rem;
+    align-items: center;
+    font-size: 4.6rem;
+    line-height: 4rem;
+    max-width: 18rem;
+  }
+
+  h1 span{
+    font-size: 2.5rem;
+    line-height: 2.5rem;
   }
 }
 
@@ -52,6 +86,38 @@ h1 {
   cursor: default;
 }
 
+@media (max-width: 1080px) {
+  .player-controls {
+    width: 25vw;
+    padding-bottom: 5vh;
+  }
+  .player-controls [id*="selection-"] {
+    width: 4rem;
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 5rem;
+    margin: 0.5rem;
+  }
+
+  
+}
+
+/* ! Player Turn */
+.player_turn {
+  font-weight: 900;
+  font-size: 2rem;
+  text-align: center;
+  position: relative;
+  bottom: 30vh;
+}
+
+@media (max-width: 1080px) {
+  .player_turn {
+    bottom: 40vh;
+    font-size: 1.75rem;
+  }
+}
+
 /* ! Board */
 
 #tic-tac-grid {
@@ -81,10 +147,12 @@ h1 {
     margin: 25vh 0 0 10vw;
     padding: 0.5rem 0 0 0.5rem;
   }
-  #tic-tac-grid div{
+  #tic-tac-grid div {
     width: 8vw;
     height: 8vw;
     margin: 0 0.5rem 0.5rem 0;
+    font-size: 4rem;
+    line-height: 8vw;
   }
 }
 
@@ -94,54 +162,13 @@ h1 {
 #tic-tac-grid div:nth-child(3n + 1) {
   clear: both;
 }
-#tic-tac-grid[class*="winner-0"] > div:nth-child(1),
-#tic-tac-grid[class*="winner-0"] > div:nth-child(2),
-#tic-tac-grid[class*="winner-0"] > div:nth-child(3) {
-  background: #000;
+
+/* ! Winner */
+#tic-tac-grid div.winner {
+  background: #bf277b;
   color: #fff;
 }
-#tic-tac-grid[class*="winner-1"] > div:nth-child(4),
-#tic-tac-grid[class*="winner-1"] > div:nth-child(5),
-#tic-tac-grid[class*="winner-1"] > div:nth-child(6) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-2"] > div:nth-child(7),
-#tic-tac-grid[class*="winner-2"] > div:nth-child(8),
-#tic-tac-grid[class*="winner-2"] > div:nth-child(9) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-3"] > div:nth-child(1),
-#tic-tac-grid[class*="winner-3"] > div:nth-child(4),
-#tic-tac-grid[class*="winner-3"] > div:nth-child(7) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-4"] > div:nth-child(2),
-#tic-tac-grid[class*="winner-4"] > div:nth-child(5),
-#tic-tac-grid[class*="winner-4"] > div:nth-child(8) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-5"] > div:nth-child(3),
-#tic-tac-grid[class*="winner-5"] > div:nth-child(6),
-#tic-tac-grid[class*="winner-5"] > div:nth-child(9) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-6"] > div:nth-child(1),
-#tic-tac-grid[class*="winner-6"] > div:nth-child(5),
-#tic-tac-grid[class*="winner-6"] > div:nth-child(9) {
-  background: #000;
-  color: #fff;
-}
-#tic-tac-grid[class*="winner-7"] > div:nth-child(3),
-#tic-tac-grid[class*="winner-7"] > div:nth-child(5),
-#tic-tac-grid[class*="winner-7"] > div:nth-child(7) {
-  background: #000;
-  color: #fff;
-}
+
 #tic-tac-grid:after {
   content: " ";
   display: table;
