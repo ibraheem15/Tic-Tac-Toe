@@ -272,14 +272,14 @@ function allowDraggable(ev) {
   const isMoveValid = (draggedCellId, dropTargetId) => {
     const validMoves = {
       4: [0, 1, 2, 3, 5, 6, 7, 8],
-      0: [4],
-      1: [4],
-      2: [4],
-      3: [4],
-      5: [4],
-      6: [4],
-      7: [4],
-      8: [4],
+      0: [4, 1, 3],
+      1: [4, 0, 2],
+      2: [4, 1, 5],
+      3: [4, 0, 6],
+      5: [4, 2, 8],
+      6: [4, 3, 7],
+      7: [4, 6, 8],
+      8: [4, 5, 7],
     };
     return validMoves[draggedCellId].includes(parseInt(dropTargetId));
   };
